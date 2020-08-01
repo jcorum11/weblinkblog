@@ -1,0 +1,13 @@
+/* global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --blink-orange: #c24d0e;
+  --blink-peach: #be794b;
+  --blink-pink: #cf9d9d;
+  --blink-black: #000000;
+}
