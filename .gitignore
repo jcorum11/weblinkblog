@@ -1,3 +1,10 @@
+.gitignore
+.DS_Store
+.vscode
+package-lock.json
+notes.txt
+/public/images/weblinkblog-colorscheme.png
+
 # Logs
 logs
 *.log
