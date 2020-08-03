@@ -1,16 +1,11 @@
 const router = require("express").Router();
 
 const sequelize = require("../config/connection");
-const withAuth = require("../utils/auth");
-
 const { Post, User, Comment } = require("../models");
 
-router.get("/", withAuth, (req, res) => {
+router.get("/", (req, res) => {
+  console.log(req.session);
   Post.findAll({
-    where: {
-      // use the ID from the session
-      user_id: req.session.user_id,
-    },
     attributes: [
       "id",
       "post_url",
@@ -33,9 +28,12 @@ router.get("/", withAuth, (req, res) => {
     ],
   })
     .then((dbPostData) => {
-      // serialize data before passing to template
+      // pass a single post object into the homepage template
       const posts = dbPostData.map((post) => post.get({ plain: true }));
-      res.render("dashboard", { posts, loggedIn: true });
+      res.render("homepage", {
+        posts,
+        loggedIn: req.session.loggedIn,
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -43,12 +41,14 @@ router.get("/", withAuth, (req, res) => {
     });
 });
 
-router.get("/edit/:id", withAuth, (req, res) => {
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+
+router.get("/post/:id", (req, res) => {
   Post.findOne({
     where: {
-      // use the ID from the session
-      user_id: req.session.user_id,
-      post_id: req.params.id
+      id: req.params.id,
     },
     attributes: [
       "id",
@@ -72,9 +72,19 @@ router.get("/edit/:id", withAuth, (req, res) => {
     ],
   })
     .then((dbPostData) => {
-      // serialize data before passing to template
+      if (!dbPostData) {
+        res.status(404).json({ message: "No post found with this id" });
+        return;
+      }
+
+      // serialize the data
       const post = dbPostData.get({ plain: true });
-      res.render("edit-post", { post, loggedIn: true });
+
+      // pass data to template
+      res.render("single-post", {
+        post,
+        loggedIn: req.session.loggedIn,
+      });
     })
     .catch((err) => {
       console.log(err);
