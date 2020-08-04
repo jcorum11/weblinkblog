@@ -6,27 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>we BLINK</title>
   <link rel="stylesheet" href="/styles/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <div class="wrapper">
     <header>
       <h1>
-        <a href="/">we BLINK</a>
+        <a href="/">we <span>BLINK</span></a>
       </h1>
-    </header>
-    <nav>
+      <nav>
       {{#if loggedIn}}
-      <a href="/dashboard">Home</a>
-      <button id="logout" class="btn-no-style">logout</button>
+      <a href="/">Feed</a>
+      <a href="/dashboard">My Stuff</a>
+      <button id="logout" class="btn-no-style">Logout</button>
       {{else}}
       <a href="/login">login</a>
       {{/if}}
     </nav>
+    </header>
     <main>
       {{{body}}}
     </main>
-    <footer>Made with 🙃 by Jake</footer>
+    <footer>
+      <h1>Made with 🙃 by <span>Jake</span></h1>
+    </footer>
   </div>
   {{#if loggedIn}}
   <script src="/js/logout.js"></script>
