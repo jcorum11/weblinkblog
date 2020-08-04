@@ -48,7 +48,7 @@ router.get("/edit/:id", withAuth, (req, res) => {
     where: {
       // use the ID from the session
       user_id: req.session.user_id,
-      post_id: req.params.id
+      id: req.params.id
     },
     attributes: [
       "id",
